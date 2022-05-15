@@ -1,0 +1,32 @@
+{
+  "name": "nodecg-beat-link",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "",
+  "author": "ayatk",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "panel",
+        "title": "Panel",
+        "width": 8,
+        "file": "panel.html",
+        "headerColor": "#525F78"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "index.html",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
