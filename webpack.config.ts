@@ -25,6 +25,7 @@ const baseConfig = (kind: string, name: string): webpack.Configuration => {
           options: {
             loader: "tsx",
             target: "es2021",
+            tsconfigRaw: require("./tsconfig.web.json"),
           },
         },
       ],
