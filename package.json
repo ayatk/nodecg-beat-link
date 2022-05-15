@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env TS_NODE_PROJECT=\"tsconfig.node.json\" webpack --mode production",
+    "watch": "cross-env TS_NODE_PROJECT=\"tsconfig.node.json\" webpack --mode production --watch",
     "fix": "run-s fix:eslint fix:prettier",
     "fix:eslint": "npm run lint:eslint --fix",
     "fix:prettier": "npm run lint:prettier --write",
