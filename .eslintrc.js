@@ -18,5 +18,5 @@ module.exports = {
     "import/order": [2, { alphabetize: { order: "asc" } }],
   },
   parserOptions: { project: "./tsconfig.json" },
-  ignorePatterns: [".eslintrc.*", "vite.config.*"],
+  ignorePatterns: [".eslintrc.*", "webpack.config.*"],
 }

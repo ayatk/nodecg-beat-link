@@ -8,6 +8,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "cross-env TS_NODE_PROJECT=\"tsconfig.node.json\" webpack --mode production",
     "fix": "run-s fix:eslint fix:prettier",
     "fix:eslint": "npm run lint:eslint --fix",
     "fix:prettier": "npm run lint:prettier --write",
@@ -16,33 +17,40 @@
   },
   "nodecg": {
     "compatibleRange": "^1.1.1",
-    "dashboardPanels": [
-      {
-        "name": "panel",
-        "title": "Panel",
-        "width": 8,
-        "file": "panel.html",
-        "headerColor": "#525F78"
-      }
-    ],
+    "dashboardPanels": [],
     "graphics": [
       {
-        "file": "index.html",
+        "file": "now-playing.html",
         "width": 1280,
         "height": 720
       }
     ]
   },
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "styled-components": "^5.3.5"
+  },
   "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^17.0.33",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/styled-components": "^5.1.25",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
-    "@typescript-eslint/parser": "^5.23.0",
     "browserslist": "^4.20.3",
+    "cross-env": "^7.0.3",
+    "esbuild-loader": "^2.19.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "html-webpack-plugin": "^5.5.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
-    "typescript": "^4.6.4"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
   },
   "prettier": {
     "semi": false
