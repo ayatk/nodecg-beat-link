@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "default": "" },
+    "artist": { "type": "string", "default": "" },
+    "album": { "type": "string", "default": "" },
+    "imageUrl": { "type": "string", "default": "" }
+  },
+  "required": ["title", "artist", "album", "imageUrl"]
+}
