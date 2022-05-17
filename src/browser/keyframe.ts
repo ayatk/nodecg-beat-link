@@ -1,4 +1,4 @@
-import { Keyframes, keyframes } from "styled-components"
+import { Keyframes, keyframes } from "@emotion/react"
 
 export const FadeIn = keyframes`
   from {
