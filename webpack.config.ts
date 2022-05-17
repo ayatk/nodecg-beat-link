@@ -1,24 +1,19 @@
 import * as path from "path"
 import fs from "fs"
 import HtmlWebpackPlugin from "html-webpack-plugin"
-import webpack from "webpack"
+import webpack, { CleanPlugin } from "webpack"
 
 type Kind = "dashboard" | "graphics" | "extentions"
-
-const toKebabCase = (s: string) =>
-  s.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 
 const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
   const entries = Object.assign(
     {},
-    ...names.map((name) => ({
-      [toKebabCase(name)]: `./src/${kind}/${name}/entrypoint.tsx`,
-    }))
+    ...names.map((name) => ({ [name]: `./src/${kind}/index.${name}.tsx` }))
   )
   const htmlWebpackPlugins = names.map(
     (name) =>
       new HtmlWebpackPlugin({
-        filename: path.join(__dirname, kind, `${toKebabCase(name)}.html`),
+        filename: path.join(__dirname, kind, `${name}.html`),
         template: `./public/index.html`,
       })
   )
@@ -45,7 +40,7 @@ const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
         },
       ],
     },
-    plugins: [...htmlWebpackPlugins],
+    plugins: [...htmlWebpackPlugins, new CleanPlugin({ keep: ".gitkeep" })],
     optimization: {
       splitChunks: {
         chunks: "all",
@@ -56,7 +51,11 @@ const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
 
 const graphics = baseConfig(
   "graphics",
-  fs.readdirSync(path.join(__dirname, "src", "graphics"))
+  fs
+    .readdirSync(path.join(__dirname, "src", "graphics"))
+    .map((x) => x.match(/index\.(.+)\.tsx?$/i))
+    .filter((x): x is NonNullable<typeof x> => x != null)
+    .map((x) => x[1])
 )
 
 // const frontendConfig: webpack.Configuration | webpack.WebpackOptionsNormalized =
