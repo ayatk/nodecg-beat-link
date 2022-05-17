@@ -3,10 +3,12 @@ import fs from "fs"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import webpack from "webpack"
 
+type Kind = "dashboard" | "graphics" | "extentions"
+
 const toKebabCase = (s: string) =>
   s.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 
-const baseConfig = (kind: string, name: string): webpack.Configuration => {
+const baseConfig = (kind: Kind, name: string): webpack.Configuration => {
   return {
     entry: `./src/${kind}/${name}/entrypoint.tsx`,
     output: {
