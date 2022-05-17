@@ -1,10 +1,4 @@
 import React from "react"
-import ReactDOM from "react-dom"
-import { GlobalStyle } from "../GlobalStyle"
+import { entrypoint } from "../entrypoint"
 
-ReactDOM.render(
-  <React.StrictMode>
-    <GlobalStyle />
-  </React.StrictMode>,
-  document.getElementById("root")
-)
+entrypoint(<div></div>)
