@@ -8,13 +8,26 @@ type Kind = "dashboard" | "graphics" | "extentions"
 const toKebabCase = (s: string) =>
   s.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 
-const baseConfig = (kind: Kind, name: string): webpack.Configuration => {
+const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
+  const entries = Object.assign(
+    {},
+    ...names.map((name) => ({
+      [toKebabCase(name)]: `./src/${kind}/${name}/entrypoint.tsx`,
+    }))
+  )
+  const htmlWebpackPlugins = names.map(
+    (name) =>
+      new HtmlWebpackPlugin({
+        filename: path.join(__dirname, kind, `${toKebabCase(name)}.html`),
+        template: `./public/index.html`,
+      })
+  )
+
   return {
-    entry: `./src/${kind}/${name}/entrypoint.tsx`,
+    entry: entries,
     output: {
       path: path.join(__dirname, kind),
-      filename: `${toKebabCase(name)}.bundle.js`,
-      uniqueName: name,
+      filename: "[name].bundle.js",
     },
     resolve: {
       extensions: [".ts", ".tsx"],
@@ -32,20 +45,19 @@ const baseConfig = (kind: Kind, name: string): webpack.Configuration => {
         },
       ],
     },
-    plugins: [
-      new HtmlWebpackPlugin({
-        inject: true,
-        filename: path.join(__dirname, kind, `${toKebabCase(name)}.html`),
-        template: `./public/index.html`,
-        scriptLoading: "module",
-      }),
-    ],
+    plugins: [...htmlWebpackPlugins],
+    optimization: {
+      splitChunks: {
+        chunks: "all",
+      },
+    },
   }
 }
 
-const graphics = fs
-  .readdirSync(path.join(__dirname, "src", "graphics"))
-  .map((x) => baseConfig("graphics", x))
+const graphics = baseConfig(
+  "graphics",
+  fs.readdirSync(path.join(__dirname, "src", "graphics"))
+)
 
 // const frontendConfig: webpack.Configuration | webpack.WebpackOptionsNormalized =
 //   {
@@ -93,4 +105,4 @@ const graphics = fs
 //       : undefined,
 //   }
 
-export default [...graphics]
+export default [graphics]
