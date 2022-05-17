@@ -1,4 +1,7 @@
 import React from "react"
 import { entrypoint } from "../entrypoint"
+import Track from "./components/Track"
 
-entrypoint(<div></div>)
+const NowPlaying = () => <Track />
+
+entrypoint(<NowPlaying />)

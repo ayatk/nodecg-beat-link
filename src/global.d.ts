@@ -2,7 +2,7 @@ import {
   CreateNodecgInstance,
   CreateNodecgConstructor,
 } from "ts-nodecg/browser"
-import { ReplicantMap } from "./global"
+import { ReplicantMap } from "./nodecg"
 
 declare global {
   const nodecg: CreateNodecgInstance<

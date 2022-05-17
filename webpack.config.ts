@@ -30,7 +30,7 @@ const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
       filename: "[name].bundle.js",
     },
     resolve: {
-      extensions: [".ts", ".tsx"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     module: {
       rules: [
@@ -61,6 +61,15 @@ const graphics = baseConfig(
   "graphics",
   fs
     .readdirSync(path.join(__dirname, "src", "browser", "graphics"))
+    .map((x) => x.match(/index\.(.+)\.tsx?$/i))
+    .filter((x): x is NonNullable<typeof x> => x != null)
+    .map((x) => x[1])
+)
+
+const dashboard = baseConfig(
+  "dashboard",
+  fs
+    .readdirSync(path.join(__dirname, "src", "browser", "dashboard"))
     .map((x) => x.match(/index\.(.+)\.tsx?$/i))
     .filter((x): x is NonNullable<typeof x> => x != null)
     .map((x) => x[1])
@@ -112,4 +121,4 @@ const graphics = baseConfig(
 //       : undefined,
 //   }
 
-export default [graphics]
+export default [graphics, dashboard]

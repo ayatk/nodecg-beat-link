@@ -1,2 +1,3 @@
-export { Track } from "./generated"
-export { ReplicantMap } from "./replicants"
+export type { Track } from "./generated"
+export type { ReplicantMap } from "./replicants"
+export { replicantDefaultValues } from "./replicants"
