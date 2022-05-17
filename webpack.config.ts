@@ -8,7 +8,12 @@ type Kind = "dashboard" | "graphics" | "extentions"
 const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
   const entries = Object.assign(
     {},
-    ...names.map((name) => ({ [name]: `./src/${kind}/index.${name}.tsx` }))
+    ...names.map((name) => ({
+      [name]:
+        kind === "extentions"
+          ? `./src/${kind}/index.${name}.ts`
+          : `./src/browser/${kind}/index.${name}.tsx`,
+    }))
   )
   const htmlWebpackPlugins = names.map(
     (name) =>
@@ -35,7 +40,10 @@ const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
           options: {
             loader: "tsx",
             target: "es2021",
-            tsconfigRaw: require("./src/tsconfig.json"),
+            tsconfigRaw:
+              kind !== "extentions"
+                ? require("./src/browser/tsconfig.json")
+                : undefined,
           },
         },
       ],
@@ -52,7 +60,7 @@ const baseConfig = (kind: Kind, names: string[]): webpack.Configuration => {
 const graphics = baseConfig(
   "graphics",
   fs
-    .readdirSync(path.join(__dirname, "src", "graphics"))
+    .readdirSync(path.join(__dirname, "src", "browser", "graphics"))
     .map((x) => x.match(/index\.(.+)\.tsx?$/i))
     .filter((x): x is NonNullable<typeof x> => x != null)
     .map((x) => x[1])
