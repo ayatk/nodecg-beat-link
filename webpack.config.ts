@@ -2,6 +2,7 @@ import * as path from "path"
 import fs from "fs"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import webpack, { CleanPlugin } from "webpack"
+import nodeExternals from "webpack-node-externals"
 
 type Kind = "dashboard" | "graphics" | "extentions"
 
@@ -75,4 +76,31 @@ const dashboard = baseConfig(
     .map((x) => x[1])
 )
 
-export default [graphics, dashboard]
+const extension: webpack.Configuration = {
+  target: "node",
+  node: false,
+  entry: path.resolve(__dirname, "src/extension/index.ts"),
+  output: {
+    path: path.resolve(__dirname, "extension"),
+    filename: "index.js",
+    libraryTarget: "commonjs2",
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        loader: "esbuild-loader",
+        options: {
+          loader: "ts",
+          target: "node16",
+        },
+      },
+    ],
+  },
+  externals: [nodeExternals()],
+}
+
+export default [graphics, dashboard, extension]
